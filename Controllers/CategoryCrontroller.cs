@@ -35,7 +35,7 @@ namespace Blog.Controllers
                 Category? categories = await GetById(id, context);
 
                 if (categories == null)
-                    return NotFound();
+                    return NotFound(new ResultViewModel<Category>("Categoria não encontrada"));
 
                 return Ok(new ResultViewModel<Category>(categories));
             }
@@ -92,7 +92,7 @@ namespace Blog.Controllers
             Category? category = await GetById(id, context);
 
             if (category == null)
-                return NotFound();
+                return NotFound(new ResultViewModel<Category>("Categoria não encontrada"));
 
             category.Name = model.Name;
             category.Slug = model.Slug;
@@ -122,7 +122,7 @@ namespace Blog.Controllers
         {
             Category? category = await GetById(id, context);
             if (category == null)
-                return NotFound();
+                return NotFound(new ResultViewModel<Category>("Categoria não encontrada"));
             try
             {
                 context.Remove(category);
