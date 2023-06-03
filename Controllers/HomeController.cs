@@ -1,15 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Blog.Attributes;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Controllers
 {
     [ApiController]
-    [Route("")]
+    [Route("v1/")]
     public class HomeController : ControllerBase
     {
         [HttpGet]
+        [ApiKey]
         public IActionResult Get()
         {
-            return Ok();
+            return Ok("Sua Api Key está funcionando");
         }
     }
 }
