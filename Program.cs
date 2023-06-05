@@ -55,17 +55,18 @@ void ConfigureMvc(WebApplicationBuilder webApplicationBuilder)
         .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; });
 }
 
-void ConfigureServices(WebApplicationBuilder builder1)
+void ConfigureServices(WebApplicationBuilder builder)
 {
-    builder1.Services.AddDbContext<BlogDataContext>();
-    builder1.Services.AddTransient<TokenService>();
+    builder.Services.AddDbContext<BlogDataContext>();
+    builder.Services.AddTransient<TokenService>();
+    builder.Services.AddTransient<EmailService>();
 }
 
 void LoadConfiguration(WebApplication app)
 {
     Configuration.JwtKey = app.Configuration.GetValue<string>("JwtKey");
     Configuration.ApiKeyName = app.Configuration.GetValue<string>("ApiKeyName");
-    Configuration.ApiKeyValue = app.Configuration.GetValue<string>("ApiKeyValue");
+    Configuration.ApiKeyValue = app.Configuration.GetValue<string>("ApiKey");
 
     var smtp = new SmtpConfiguration();
     app.Configuration.GetSection("SmtpConfiguration").Bind(smtp);

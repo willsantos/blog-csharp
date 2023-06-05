@@ -48,7 +48,8 @@ namespace Blog.Controllers
         [HttpPost("v1/account/")]
         public async Task<IActionResult> Post(
             [FromBody] RegisterViewModel model,
-            [FromServices] BlogDataContext context)
+            [FromServices] BlogDataContext context,
+            [FromServices] EmailService emailService)
         {
             if(!ModelState.IsValid)
                 return BadRequest(new ResultViewModel<User>(ModelState.GetErrors()));
@@ -67,6 +68,13 @@ namespace Blog.Controllers
             {
                 await context.Users.AddAsync(user);
                 await context.SaveChangesAsync();
+
+                emailService.Send(
+                            user.Name,
+                            user.Email,
+                            "Bem vindo ao Blog",
+                            $"Sua senha é: {password}"
+                        );
 
                 return Ok(new ResultViewModel<dynamic>(new
                 {
